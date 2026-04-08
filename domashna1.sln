@@ -1,25 +1,133 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.11.35208.52
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "domashna1", "domashna1\domashna1.csproj", "{3B128F88-06A1-4B25-95B6-414278E3DF09}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3B128F88-06A1-4B25-95B6-414278E3DF09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B128F88-06A1-4B25-95B6-414278E3DF09}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B128F88-06A1-4B25-95B6-414278E3DF09}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B128F88-06A1-4B25-95B6-414278E3DF09}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {A5B20DD1-276C-4B05-8043-647C29C9F3EA}
-	EndGlobalSection
-EndGlobal
+﻿namespace domashna1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+        }
+            public class CustomArrayList
+        {
+            private object[] arr;
+            private int count;
+
+            public int Count
+            {
+                get { return count; }
+            }
+
+            private static readonly int INITIAL_CAPACITY = 4;
+
+            public CustomArrayList()
+            {
+                arr = new object[INITIAL_CAPACITY];
+                count = 0;
+            }
+
+            private void Resize()
+            {
+                object[] newArr = new object[arr.Length * 2];
+                for (int i = 0; i < arr.Length; i++)
+                {
+                    newArr[i] = arr[i];
+                }
+                arr = newArr;
+            }
+
+            public void Add(object item)
+            {
+                if (count == arr.Length)
+                {
+                    Resize();
+                }
+
+                arr[count] = item;
+                count++;
+            }
+
+            public void Insert(int index, object item)
+            {
+                if (index < 0 || index > count)
+                    throw new ArgumentOutOfRangeException();
+
+                if (count == arr.Length)
+                {
+                    Resize();
+                }
+
+                for (int i = count; i > index; i--)
+                {
+                    arr[i] = arr[i - 1];
+                }
+
+                arr[index] = item;
+                count++;
+            }
+
+            public int IndexOf(object item)
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    if (arr[i].Equals(item))
+                        return i;
+                }
+                return -1;
+            }
+
+            public void Clear()
+            {
+                arr = new object[INITIAL_CAPACITY];
+                count = 0;
+            }
+
+            public bool Contains(object item)
+            {
+                return IndexOf(item) != -1;
+            }
+
+            public object this[int index]
+            {
+                get
+                {
+                    if (index < 0 || index >= count)
+                        throw new ArgumentOutOfRangeException();
+
+                    return arr[index];
+                }
+                set
+                {
+                    if (index < 0 || index >= count)
+                        throw new ArgumentOutOfRangeException();
+
+                    arr[index] = value;
+                }
+            }
+
+            public object Remove(int index)
+            {
+                if (index < 0 || index >= count)
+                    throw new ArgumentOutOfRangeException();
+
+                object removed = arr[index];
+
+                for (int i = index; i < count - 1; i++)
+                {
+                    arr[i] = arr[i + 1];
+                }
+
+                count--;
+                return removed;
+            }
+
+            public int Remove(object item)
+            {
+                int index = IndexOf(item);
+                if (index == -1)
+                    return -1;
+
+                Remove(index);
+                return index;
+            }
+        }
+    }
+    
+}
