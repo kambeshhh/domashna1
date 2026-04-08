@@ -1,5 +1,5 @@
-namespace Zadacha1
-{
+namespace Dinamic
+
     internal class DynamicList
     {
         private class Node
